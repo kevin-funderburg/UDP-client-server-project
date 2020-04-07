@@ -33,6 +33,7 @@ int add(int, char*, char*, int);
 int delete(int);
 int display_all();
 int display(int);
+int displayStudent(int);
 int getStudentData();
 bool studentExists(int);
 bool idValid(char*);

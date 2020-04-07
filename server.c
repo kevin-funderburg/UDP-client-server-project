@@ -99,6 +99,17 @@ bool studentExists(int ID)
     return false;
 }
 
+int displayStudent(int ID)
+{
+    getStudentData();
+    tableHeader();
+    for (int i = 0; i < studentCount; ++i)
+        if (students[i].id == ID)
+            showStudent(students[i]);
+    strcat(svrMessage, "------------------------------------------------------\n\n");
+    return 0;
+}
+
 /**
  * check student ID is valid
  */
@@ -110,7 +121,7 @@ bool idValid(char* id) { return (strlen(id) == 6); }
 int getStudentData()
 {
     printf("TRYING TO GET STUDENT DATA\n");
-    FILE *fp = fopen(datafile, "r");
+    FILE *fp = fopen("data.csv", "r");
     if (!fp) {
         printf("Can't open file\n");
         return 0;
@@ -152,6 +163,7 @@ int getStudentData()
             field_count++;
         }
     }
+    fclose(fp);
     return 0;
 }
 
@@ -186,7 +198,7 @@ void showStudent(struct student s)
  */
 void showusage()
 {
-    strcpy(svrMessage, "\nUSAGEdoodlaee doo\n"
+    strcpy(svrMessage, "\nUSAGE\n"
                           "\t[adasdeh] [a add] [da delete_all] [s showscores] [d delete] [e exit] [h help]\n"
                           "\ta add\n"
                           "\t\tadds a student to the database with the following parameters:\n"
@@ -263,57 +275,73 @@ int main(){
     bool valid = false;
     if ((strncmp("add", args[0], 3) == 0) || (strncmp("a", args[0], 1) == 0))
     {
-        // if (argc < 5) {
-        //     printf("expected 4 arguments and got %d\n", argc);
-        //     snprintf(svrMessage, sizeof(svrMessage), "expected 4 arguments and got %d\n", argc - 1);
-        // } else if (!idValid(args[1])) {
-        //     strcpy(svrMessage, "Invalid student ID, must be 6 digits long.\n");
-        // } else if (studentExists(atoi(args[1]))) {
-        //     strcpy(svrMessage, "Student already in database.\n");
-        // } else
-        //     valid = true;
-        //
-        // if (valid) {
-        //     add(atoi(args[1]), args[2], args[3], atoi(args[4]));
-        //     strcpy(svrMessage, "Student added successfully.\n");
-        // }
+        if (argc < 5) {
+            printf("expected 4 arguments and got %d\n", argc);
+            snprintf(svrMessage, sizeof(svrMessage), "expected 4 arguments and got %d\n", argc - 1);
+        } else if (!idValid(args[1])) {
+            strcpy(svrMessage, "Invalid student ID, must be 6 digits long.\n");
+        } else if (studentExists(atoi(args[1]))) {
+            strcpy(svrMessage, "Student already in database.\n");
+        } else
+            valid = true;
+
+        if (valid) {
+            add(atoi(args[1]), args[2], args[3], atoi(args[4]));
+            strcpy(svrMessage, "Student added successfully.\n");
+        }
     }
     else if (strncmp("display_all", args[0], 11) == 0 || (strncmp("da", args[0], 2) == 0))
     {
         display_all();
         printf("\n%s", svrMessage);
     }
+    else if (strncmp("display_student", args[0], 10) == 0 || (strncmp("ds", args[0], 2) == 0))
+    {
+        if (argc < 2) {
+            printf("expected 2 arguments and got %d\n", argc);
+            snprintf(svrMessage, sizeof(svrMessage), "expected 2 arguments and got %d\n", argc);
+        } else if (!idValid(args[1])) {
+            strcpy(svrMessage, "Invalid student ID, must be 6 digits long.\n");
+        } else if (!studentExists(atoi(args[1]))) {
+            strcpy(svrMessage, "Student not found.\n");
+        } else
+            valid = true;
+
+        if (valid) {
+            displayStudent(atoi(args[1]));
+        }
+    }
     else if (strncmp("showscores", args[0], 10) == 0 || (strncmp("s", args[0], 1) == 0))
     {
-        // if (argc < 2) {
-        //     printf("expected 2 arguments and got %d\n", argc);
-        //     snprintf(svrMessage, sizeof(svrMessage), "expected 2 arguments and got %d\n", argc);
-        // } else if (strlen(args[1]) == 0 || (strlen(args[1])) > 3) {
-        //     strcpy(svrMessage, "Invalid score, must be 1 to 3 digits long.\n");
-        // } else
-        //     valid = true;
-        //
-        // if (valid) {
-        //     display(atoi(args[1]));
-        //     printf("\n%s", svrMessage);
-        // }
+        if (argc < 2) {
+            printf("expected 2 arguments and got %d\n", argc);
+            snprintf(svrMessage, sizeof(svrMessage), "expected 2 arguments and got %d\n", argc);
+        } else if (strlen(args[1]) == 0 || (strlen(args[1])) > 3) {
+            strcpy(svrMessage, "Invalid score, must be 1 to 3 digits long.\n");
+        } else
+            valid = true;
+
+        if (valid) {
+            display(atoi(args[1]));
+            printf("\n%s", svrMessage);
+        }
     }
     else if (strncmp("delete", args[0], 6) == 0 || (strncmp("d", args[0], 1) == 0))
     {
-        // if (argc < 2) {
-        //     printf("expected 2 arguments and got %d\n", argc);
-        //     snprintf(svrMessage, sizeof(svrMessage), "expected 2 arguments and got %d\n", argc);
-        // } else if (!idValid(args[1])) {
-        //     strcpy(svrMessage, "Invalid student ID, must be 6 digits long.\n");
-        // } else if (!studentExists(atoi(args[1]))) {
-        //     strcpy(svrMessage, "Student not found.\n");
-        // } else
-        //     valid = true;
-        //
-        // if (valid) {
-        //     delete(atoi(args[1]));
-        //     strcpy(svrMessage, "Student deleted successfully.\n");
-        // }
+        if (argc < 2) {
+            printf("expected 2 arguments and got %d\n", argc);
+            snprintf(svrMessage, sizeof(svrMessage), "expected 2 arguments and got %d\n", argc);
+        } else if (!idValid(args[1])) {
+            strcpy(svrMessage, "Invalid student ID, must be 6 digits long.\n");
+        } else if (!studentExists(atoi(args[1]))) {
+            strcpy(svrMessage, "Student not found.\n");
+        } else
+            valid = true;
+
+        if (valid) {
+            delete(atoi(args[1]));
+            strcpy(svrMessage, "Student deleted successfully.\n");
+        }
     }
     else if (strncmp("help", args[0], 6) == 0 || (strncmp("h", args[0], 1) == 0))
     {
@@ -336,6 +364,8 @@ int main(){
     nBytes = strlen(svrMessage);
     /*Send uppercase message back to client, using serverStorage as the address*/
     sendto(udpSocket,buffer,nBytes,0,(struct sockaddr *)&serverStorage,addr_size);
+
+    if (exit) break;
   }
 
   return 0;

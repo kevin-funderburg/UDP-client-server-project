@@ -44,7 +44,11 @@
         /*Receive message from server*/
         nBytes = recvfrom(clientSocket,buffer,1024,0,NULL, NULL);
 
-        printf("Received from server: %s\n",buffer);
+        if ((strncmp(buffer, "exit", 4)) == 0) {
+            printf("Client Exit...\n");
+            break;
+        } else
+            printf("%s", buffer);
 
    }
 
