@@ -23,8 +23,8 @@
    /*Configure settings in address struct*/
    serverAddr.sin_family = AF_INET;
    serverAddr.sin_port = htons(7891);
-   serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // local host
-   // serverAddr.sin_addr.s_addr = inet_addr("147.26.231.156"); // zeus server
+   // serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // local host
+   serverAddr.sin_addr.s_addr = inet_addr("147.26.231.156"); // zeus server
    memset(serverAddr.sin_zero, '\0', sizeof serverAddr.sin_zero);
 
    /*Initialize size variable to be used later on*/
