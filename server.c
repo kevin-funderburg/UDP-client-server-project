@@ -199,16 +199,18 @@ void showStudent(struct student s)
 void showusage()
 {
     strcpy(svrMessage, "\nUSAGE\n"
-                          "\t[adasdeh] [a add] [da delete_all] [s showscores] [d delete] [e exit] [h help]\n"
+                          "\t[adadssdeh] [a add] [da delete_all] [ds display_student] [s showscores] [d delete] [e exit] [h help]\n"
                           "\ta add\n"
                           "\t\tadds a student to the database with the following parameters:\n"
                           "\t\t[student ID] [First Name] [Last Name] [Grade]\n"
                           "\tda display_all\n"
                           "\t\tdisplay all student data in database\n"
+                          "\tds display_student\n"
+                          "\t\tdisplay a student from database with student ID = [student ID]\n"
                           "\ts showscores\n"
                           "\t\tshow all students with a grade higher than [grade]\n"
                           "\td delete\n"
-                          "\t\tdelete a student from data base with student ID = [student ID]\n"
+                          "\t\tdelete a student from database with student ID = [student ID]\n"
                           "\te exit\n"
                           "\t\texit the application\n"
                           "\th help\n"
@@ -237,8 +239,8 @@ int main(){
   /*Configure settings in address struct*/
   serverAddr.sin_family = AF_INET;
   serverAddr.sin_port = htons(7891);
-  // serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // local host
-  serverAddr.sin_addr.s_addr = inet_addr("147.26.231.156"); // zues server
+  serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // local host
+  // serverAddr.sin_addr.s_addr = inet_addr("147.26.231.156"); // zues server
   memset(serverAddr.sin_zero, '\0', sizeof serverAddr.sin_zero);
 
   /*Bind socket with address struct*/
@@ -249,6 +251,9 @@ int main(){
 
   while(1)
   {
+    memset(svrMessage, 0, sizeof svrMessage);
+    bzero(buffer, MAXCHAR);
+
     /* Try to receive any incoming UDP datagram. Address and port of
       requesting client will be stored on serverStorage variable */
     nBytes = recvfrom(udpSocket,buffer,1024,0,(struct sockaddr *)&serverStorage, &addr_size);
