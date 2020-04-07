@@ -1,4 +1,4 @@
-# TCP Client/Server Project
+# UDP Client/Server Project
 
 Author: Kevin Funderburg
 
@@ -17,7 +17,7 @@ Author: Kevin Funderburg
 
 
 ## About
-The goal of this project is to gain a fundamental understanding of the interactions between clients and servers via TCP. This is shown through development of a school database system, where clients can make requests to a server, the server then processes the requests and returns the results.
+The goal of this project is to gain a fundamental understanding of the interactions between clients and servers via UDP. This is shown through development of a school database system, where clients can make requests to a server, the server then processes the requests and returns the results.
 
 ## Usage
 
