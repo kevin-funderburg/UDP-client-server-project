@@ -39,13 +39,15 @@ At this point you can follow the commands as listed below.
 ### Command line structure:
 
 ```
-[adasdeh] [a add] [da delete_all] [s showscores] [d delete] [e exit] [h help]
+[adadssdeh] [a add] [da display_all] [ds display_student] [s showscores] [d delete] [e exit] [h help]
 
 a add
     adds a student to the database with the following parameters:
     [student ID] [First Name] [Last Name] [Grade]
 da display_all
     display all student data in database
+ds display_student
+    display a student from database with student ID = [student ID]
 s showscores
     show all students with a grade higher than [grade]
 d delete
